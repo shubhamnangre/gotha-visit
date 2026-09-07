@@ -1,0 +1,10 @@
+{
+  "name": "Gotha Visit - HIRA",
+  "short_name": "Gotha Visit",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f4f7f5",
+  "theme_color": "#087443",
+  "description": "Fast offline Gotha visit data collection for HIRA.",
+  "icons": []
+}
