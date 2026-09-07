@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#087443"><title>Gotha Visit - HIRA</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f4f7f5;color:#17352a;font-family:Arial,sans-serif}.app{max-width:520px;margin:auto;min-height:100vh}
+header{background:#087443;color:#fff;padding:17px 16px;position:sticky;top:0;z-index:4}h1{font-size:21px;margin:0}header small{opacity:.9}
+main{padding:14px 13px 82px}.screen{display:none}.screen.active{display:block}.card{background:#fff;border:1px solid #dbe7e0;border-radius:14px;padding:15px;margin-bottom:12px}
+h2{font-size:18px;margin:0 0 12px}.section{background:#eaf7f0;padding:9px 11px;border-radius:9px;font-weight:700;margin:12px 0 8px}
+label{font-size:13px;font-weight:700;display:block;margin:10px 0 5px}input,select,textarea{width:100%;font-size:16px;padding:12px;border:1px solid #cad8d1;border-radius:10px;background:#fff;color:#17352a}textarea{min-height:75px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.btn{width:100%;border:0;border-radius:10px;padding:13px;font-size:15px;font-weight:700}.primary{background:#087443;color:white}.outline{background:#fff;color:#087443;border:1px solid #087443}
+.quickgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.quick{padding:16px;border:1px solid #dbe7e0;border-radius:12px;background:#fff;text-align:left;font-size:15px;font-weight:700}
+.brands{display:grid;grid-template-columns:1fr 1fr;gap:8px}.brand{padding:11px 8px;border:1px solid #ccd9d2;border-radius:10px;background:#fff;font-size:13px;text-align:left}.brand.sel{background:#087443;color:#fff;border-color:#087443}
+.checks{display:grid;grid-template-columns:1fr 1fr;gap:7px}.check{border:1px solid #dbe7e0;padding:10px;border-radius:9px;font-size:13px}.check input{width:auto;padding:0;margin-right:6px}
+.auto{background:#eaf7f0;border-radius:10px;padding:11px;margin-top:9px;font-size:13px}.auto b{font-size:19px;color:#087443}.stats{display:grid;grid-template-columns:1fr 1fr;gap:9px}.stat{background:#fff;border:1px solid #dbe7e0;border-radius:12px;padding:13px}.num{font-size:24px;font-weight:800;color:#087443}.muted{color:#68776f;font-size:12px}
+.visit{background:#fff;border:1px solid #dbe7e0;border-radius:12px;padding:13px;margin-bottom:9px}.visit h3{font-size:16px;margin:0 0 4px}.tag{display:inline-block;background:#eaf7f0;color:#087443;padding:4px 7px;border-radius:7px;font-size:11px;font-weight:700;margin-top:7px}
+.bar{height:10px;background:#e7eee9;border-radius:8px;overflow:hidden}.bar i{display:block;height:100%;background:#087443}.nav{position:fixed;bottom:0;left:0;right:0;max-width:520px;margin:auto;background:#fff;border-top:1px solid #dbe7e0;display:grid;grid-template-columns:repeat(4,1fr);z-index:5}.nav button{border:0;background:#fff;padding:8px 2px;font-size:11px;color:#68776f}.nav b{display:block;font-size:19px}.nav .on{color:#087443;font-weight:700}.toast{display:none;position:fixed;bottom:72px;left:50%;transform:translateX(-50%);background:#17352a;color:#fff;padding:10px 14px;border-radius:9px;z-index:8;font-size:13px}
+</style></head><body><div class="app">
+<header><h1>🐄 Gotha Visit</h1><small>HIRA • Fast Field Data</small></header>
+<main>
+<section id="home" class="screen active">
+<div class="card"><h2>Today's Work</h2><div class="quickgrid">
+<button class="quick" onclick="newVisit()">➕<br>New Visit</button><button class="quick" onclick="show('visits')">📋<br>Visits</button>
+<button class="quick" onclick="show('analysis')">📊<br>Analysis</button><button class="quick" onclick="show('follow')">🔔<br>Follow-ups</button>
+</div></div>
+<div class="card"><b>Fast entry</b><p class="muted">Choose a feed brand with one tap. Your visit data stays on this device and can be exported to CSV.</p></div>
+</section>
+
+<section id="form" class="screen">
+<div class="card">
+<div class="section">1. Farmer</div>
+<label>Farmer Name *</label><input id="farmer" placeholder="Name">
+<label>Village *</label><input id="village" placeholder="Village">
+<label>Mobile</label><input id="mobile" inputmode="tel" maxlength="10" placeholder="10 digits">
+<label>Visit Date</label><input id="date" type="date">
+<div class="section">2. Animals & Milk</div><div class="grid">
+<div><label>Total Cows *</label><input id="cows" type="number" min="0" oninput="calc()"></div>
+<div><label>Milking Cows *</label><input id="milking" type="number" min="0" oninput="calc()"></div>
+<div><label>Fresh Milking &lt;3 mo *</label><input id="fresh" type="number" min="0" oninput="calc()"></div>
+<div><label>Calves *</label><input id="calves" type="number" min="0"></div></div>
+<label>Total Milk / Day (L) *</label><input id="milk" type="number" min="0" step=".1" oninput="calc()">
+<div class="auto">Dry cows: <b id="dry">0</b> &nbsp; | &nbsp; Milk/milking cow: <b id="avg">0</b> L</div>
+
+<div class="section">3. Natural Feed</div><div class="checks">
+<label class="check"><input type="checkbox" name="nat" value="Green Grass">Green Grass</label>
+<label class="check"><input type="checkbox" name="nat" value="Maize">Maize</label>
+<label class="check"><input type="checkbox" name="nat" value="Jowar / Sorghum">Jowar / Sorghum</label>
+<label class="check"><input type="checkbox" name="nat" value="Lucerne">Lucerne</label>
+<label class="check"><input type="checkbox" name="nat" value="Dry Fodder">Dry Fodder</label>
+<label class="check"><input type="checkbox" name="nat" value="Silage">Silage</label></div>
+
+<div class="section">4. Supplementary Feed Brand *</div>
+<div class="brands" id="brands"></div>
+<label>Feed Type</label><select id="feedType"><option>Purchased Ready-made</option><option>Self-prepared / Mixed at farm</option><option>Home-grown ingredients</option><option>Other</option></select>
+<label>Purchase Source</label><select id="source"><option>Dealer</option><option>Distributor</option><option>Direct from Company</option><option>Local Shop</option><option>Cooperative</option><option>Other</option></select>
+<label>Quantity (kg/day)</label><input id="qty" type="number" min="0" step=".1">
+
+<div class="section">5. Milk & Follow-up</div>
+<label>Dairy / Company</label><input id="dairy" placeholder="Dairy name">
+<label>Milk Sold (L/day)</label><input id="sold" type="number" min="0" step=".1">
+<label>Follow-up?</label><select id="follow"><option>Yes</option><option>No</option></select>
+<label>Notes</label><textarea id="notes" placeholder="Interest, competitor situation, next action..."></textarea>
+<button class="btn primary" style="margin-top:13px" onclick="save()">✓ SAVE VISIT</button>
+</div></section>
+
+<section id="visits" class="screen"><div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><h2>Visits</h2><button class="btn primary" style="width:auto;padding:9px 11px" onclick="newVisit()">+ New</button></div><input id="search" placeholder="Search farmer or village" oninput="renderVisits()"></div><div id="list"></div><div class="card"><button class="btn outline" onclick="exportCSV()">⬇ Export CSV</button></div></section>
+
+<section id="analysis" class="screen"><div class="card"><h2>Basic Analysis</h2><p class="muted">Based on saved visits.</p></div>
+<div class="stats"><div class="stat"><div class="num" id="av">0</div><span class="muted">Gothas</span></div><div class="stat"><div class="num" id="ac">0</div><span class="muted">Cows</span></div><div class="stat"><div class="num" id="am">0</div><span class="muted">Milk L/day</span></div><div class="stat"><div class="num" id="af">0</div><span class="muted">Fresh cows</span></div></div>
+<div class="card" style="margin-top:12px"><h2>Brand Usage</h2><div id="brandStats"></div></div>
+</section>
+
+<section id="follow" class="screen"><div class="card"><h2>🔔 Follow-ups</h2><p class="muted">Farmers marked for follow-up.</p></div><div id="followList"></div></section>
+</main>
+<nav class="nav"><button onclick="show('home')"><b>⌂</b>Home</button><button onclick="newVisit()"><b>＋</b>New</button><button onclick="show('visits')"><b>▣</b>Visits</button><button onclick="show('analysis')"><b>▥</b>Analysis</button></nav><div id="toast" class="toast"></div>
+<script>
+const brands=['HIRA','SNI Super Diamond','Samruddhi','Dhanlaxmi','Dughdhalaxmi','Gold Label','Tiwana 8000','Tiwana 10000','CGL 8000','CGL 10000','Kisan','BA Extra Cream','BA Max Cream','Nature Advance Diamond','Nature Extra Milk','SNI Extra Milk','Other / Local Brand'];
+let data=JSON.parse(localStorage.getItem('gotha_hira_v2')||'[]'), selected='HIRA';
+const $=x=>document.getElementById(x);
+function today(){let d=new Date();return new Date(d-d.getTimezoneOffset()*60000).toISOString().slice(0,10)}
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$(id).classList.add('active');if(id==='visits')renderVisits();if(id==='analysis')analysis();if(id==='follow')renderFollow();scrollTo(0,0)}
+function renderBrands(){ $('brands').innerHTML=brands.map(b=>`<button type="button" class="brand ${b===selected?'sel':''}" onclick="pickBrand('${esc(b)}')">${esc(b)}</button>`).join('') }
+function pickBrand(b){selected=b;renderBrands()}
+function newVisit(){reset();show('form');renderBrands()}
+function reset(){['farmer','village','mobile','cows','milking','fresh','calves','milk','qty','dairy','sold','notes'].forEach(id=>$(id).value='');$('date').value=today();$('feedType').selectedIndex=0;$('source').selectedIndex=0;$('follow').value='Yes';document.querySelectorAll('input[name="nat"]').forEach(x=>x.checked=false);selected='HIRA';calc()}
+function calc(){let c=+($('cows').value||0),m=+($('milking').value||0),milk=+($('milk').value||0);$('dry').textContent=Math.max(0,c-m);$('avg').textContent=m?(milk/m).toFixed(1):'0'}
+function save(){
+let c=+($('cows').value||0),m=+($('milking').value||0),f=+($('fresh').value||0);
+if(!$('farmer').value.trim()||!$('village').value.trim()||!$('milk').value||!$('cows').value){toast('Complete farmer, cow and milk details');return}
+if(m>c||f>m){toast('Check cow numbers');return}
+let nat=[...document.querySelectorAll('input[name="nat"]:checked')].map(x=>x.value);
+let v={id:Date.now(),date:$('date').value,farmer:$('farmer').value.trim(),village:$('village').value.trim(),mobile:$('mobile').value.trim(),cows:c,milking:m,fresh:f,calves:+($('calves').value||0),milk:+($('milk').value||0),dry:c-m,nat,brand:selected,feedType:$('feedType').value,source:$('source').value,qty:+($('qty').value||0),dairy:$('dairy').value.trim(),sold:+($('sold').value||0),follow:$('follow').value,notes:$('notes').value.trim()};
+data.unshift(v);localStorage.setItem('gotha_hira_v2',JSON.stringify(data));toast('Visit saved ✓');setTimeout(()=>show('visits'),500)}
+function renderVisits(){let q=($('search').value||'').toLowerCase(),a=data.filter(v=>(v.farmer+' '+v.village).toLowerCase().includes(q));$('list').innerHTML=a.length?a.map(v=>`<div class="visit"><h3>${esc(v.farmer)}</h3><span class="muted">${esc(v.village)} • ${v.date}</span><div><span class="tag">${esc(v.brand)}</span> <span class="tag">${v.milk} L/day</span> ${v.follow==='Yes'?'<span class="tag">🔔 Follow-up</span>':''}</div><details style="margin-top:8px"><summary>Details</summary><p class="muted">Cows ${v.cows} • Milking ${v.milking} • Fresh ${v.fresh} • Calves ${v.calves} • Dry ${v.dry}<br>Natural: ${esc(v.nat.join(', ')||'None')}<br>Source: ${esc(v.source)} • Dairy: ${esc(v.dairy||'Not entered')}<br>${esc(v.notes||'')}</p></details></div>`).join(''):'<div class="card" style="text-align:center;color:#68776f">No visits found.</div>'}
+function analysis(){let cows=data.reduce((a,v)=>a+v.cows,0),milk=data.reduce((a,v)=>a+v.milk,0),fresh=data.reduce((a,v)=>a+v.fresh,0);$('av').textContent=data.length;$('ac').textContent=cows;$('am').textContent=milk;$('af').textContent=fresh;let b={};data.forEach(v=>b[v.brand]=(b[v.brand]||0)+1);let max=Math.max(1,...Object.values(b));$('brandStats').innerHTML=Object.keys(b).length?Object.entries(b).sort((a,b)=>b[1]-a[1]).map(([k,n])=>`<div style="margin:10px 0"><div style="display:flex;justify-content:space-between;font-size:13px"><span>${esc(k)}</span><b>${n}</b></div><div class="bar"><i style="width:${n/max*100}%"></i></div></div>`).join(''):'<p class="muted">Add visits to see brand analysis.</p>'}
+function renderFollow(){let a=data.filter(v=>v.follow==='Yes');$('followList').innerHTML=a.length?a.map(v=>`<div class="visit"><h3>${esc(v.farmer)}</h3><span class="muted">${esc(v.village)} • ${v.brand}</span><p style="font-size:13px;margin-bottom:0">${esc(v.notes||'Follow up with farmer')}</p></div>`).join(''):'<div class="card" style="text-align:center;color:#68776f">No follow-ups.</div>'}
+function exportCSV(){if(!data.length){toast('No visits to export');return}let head=['Date','Farmer','Village','Mobile','Total Cows','Milking','Fresh <3mo','Calves','Dry','Milk L/day','Natural Feed','Brand','Feed Type','Source','Feed kg/day','Dairy','Milk Sold L/day','Follow-up','Notes'];let rows=data.map(v=>[v.date,v.farmer,v.village,v.mobile,v.cows,v.milking,v.fresh,v.calves,v.dry,v.milk,v.nat.join('; '),v.brand,v.feedType,v.source,v.qty,v.dairy,v.sold,v.follow,v.notes]);let csv=[head,...rows].map(r=>r.map(x=>`"${String(x??'').replaceAll('"','""')}"`).join(',')).join('\\n');let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='Gotha_Visit_HIRA.csv';a.click()}
+function toast(t){let x=$('toast');x.textContent=t;x.style.display='block';setTimeout(()=>x.style.display='none',1600)}
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+renderBrands();
+</script></div></body></html>
