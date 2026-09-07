@@ -2,6 +2,11 @@
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#087443"><title>Gotha Visit - HIRA</title>
+<link rel="manifest" href="manifest.json">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Gotha Visit">
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f4f7f5;color:#17352a;font-family:Arial,sans-serif}.app{max-width:520px;margin:auto;min-height:100vh}
 header{background:#087443;color:#fff;padding:17px 16px;position:sticky;top:0;z-index:4}h1{font-size:21px;margin:0}header small{opacity:.9}
@@ -98,4 +103,7 @@ function exportCSV(){if(!data.length){toast('No visits to export');return}let he
 function toast(t){let x=$('toast');x.textContent=t;x.style.display='block';setTimeout(()=>x.style.display='none',1600)}
 function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 renderBrands();
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+}
 </script></div></body></html>
